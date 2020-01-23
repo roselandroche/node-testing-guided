@@ -13,12 +13,15 @@ async function insert(hobbit) {
   return findById(id[0])
 }
 
-function update(id, changes) {
-  return null
+async function update(id, changes) {
+  await db('hobbits')
+    .where({ id })
+    .update(changes)
+  return findById(id)
 }
 
 function remove(id) {
-  return null
+  return db('hobbits').where({ id }).del()
 }
 
 module.exports = {
