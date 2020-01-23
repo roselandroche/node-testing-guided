@@ -1,5 +1,10 @@
 const supertest = require('supertest')
 const server = require('./index')
+const db = require('./data/config')
+
+beforeEach(async () => {
+    await db.seed.run()
+})
 
 test("welcome route", async () => {
     const res = await supertest(server).get('/')
@@ -18,4 +23,14 @@ test("create hobbit route", async () => {
     expect(res.status).toBe(201)
     expect(res.type).toBe('application/json')
     expect(res.body).toEqual({ id: 5, name: 'gaffer' })
+})
+
+test("get hobbit list", async () => {
+    const res = await supertest(server)
+        .get('/hobbits')
+    expect(res.status).toBe(200)
+    expect(res.type).toBe('application/json')
+    expect(res.body.length).toBeGreaterThan(0)
+    expect(res.body[0].name).toBe('sam')
+    expect(res.body[0].id).toBe(1)
 })
