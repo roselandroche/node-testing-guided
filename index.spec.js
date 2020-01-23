@@ -10,3 +10,12 @@ test("welcome route", async () => {
     // correct data?
     expect(res.body.message).toBe('Welcome')
 })
+
+test("create hobbit route", async () => {
+    const res = await supertest(server)
+        .post('/hobbits')
+        .send({ name: 'gaffer' })
+    expect(res.status).toBe(201)
+    expect(res.type).toBe('application/json')
+    expect(res.body).toEqual({ id: 5, name: 'gaffer' })
+})
