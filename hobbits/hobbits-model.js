@@ -5,11 +5,12 @@ function list() {
 }
 
 function findById(id) {
-  return null
+  return db('hobbits').where({ id }).first()
 }
 
-function insert(hobbit) {
-  return null
+async function insert(hobbit) {
+  const id = await db("hobbits").insert(hobbit)
+  return findById(id[0])
 }
 
 function update(id, changes) {
